@@ -9,7 +9,8 @@ using System.Diagnostics;
 using System.Collections.Generic;
 
 //For Tools.DotNETCommon.JsonObject and Tools.DotNETCommon.FileReference
-using Tools.DotNETCommon;
+//using Tools.DotNETCommon;
+using EpicGames.Core;
 
 public class GDAL : ModuleRules
 {
@@ -71,6 +72,13 @@ public class GDAL : ModuleRules
 			{
 				string libFull = lib + ((libSuffix.Length == 0 || lib.EndsWith(libSuffix)) ? "" : libSuffix);
 				PublicAdditionalLibraries.Add(libFull);
+			}
+			
+			// Link against system libraries
+			string[] syslibs = dep.GetStringArrayField("system_libs");
+			foreach (string lib in syslibs)
+			{
+				PublicSystemLibraries.Add(lib);
 			}
 			
 			//Ensure any shared libraries are staged alongside the binaries for the plugin
